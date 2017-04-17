@@ -18,6 +18,14 @@ line.init({
     channelSecret: 'de20c397672b8fee5e3dee63b82a3bdb'
 });
 
+const $eval = (text) => {
+    try {
+        return eval(text);
+    } catch (e) {
+        return e;
+    }
+};
+
 
 app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
     // get content from request body
@@ -27,13 +35,7 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
             text
         } = event.message;
 
-        let result = '';
-
-        try {
-            result = eval(text);
-        } catch (e) {
-            result = e;
-        }
+        const result = $eval(text);
 
 
         // reply message
