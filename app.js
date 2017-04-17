@@ -35,7 +35,7 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
             text
         } = event.message;
 
-        const result = $eval(text);
+        const result = $eval(text) + '\nnext';
 
 
         // reply message
