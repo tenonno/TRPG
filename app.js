@@ -127,7 +127,7 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
             replyToken: event.replyToken,
             messages: [{
                 type: 'text',
-                text: result
+                text: result.toString()
             }]
         }).then((r) => {
 
