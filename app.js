@@ -116,6 +116,7 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
     try {
         result = eval(event.text);
     } catch (e) {
+        console.log('error: ', e);
         result = e;
     }
 
