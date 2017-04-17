@@ -27,6 +27,88 @@ const $eval = (text) => {
 };
 
 
+
+console.clear();
+
+const text = '100dx@8';
+
+const clamp = (val, min, max) => Math.min(Math.max(min, val), max);
+
+
+const dice = (n) => {
+
+    const vv = [];
+
+    for (let i = 0; i < n; ++i) {
+        const r = Math.floor(Math.random() * 10) + 1;
+        vv.push(r);
+    }
+
+
+    return vv;
+};
+
+const t = (text) => {
+
+
+    if (text.match(/\d+dx@\d+/)) {
+
+        const [d, v] = text.split('dx@');
+
+        const critical = clamp(v, 1, 10);
+
+        let result = '';
+
+
+        result += `🐧 ${d}D10 CT: ${v}\n`;
+
+
+        const vv = [];
+
+        const cc = [];
+
+        let n = d;
+
+
+        let sum = 0;
+
+
+
+        while (n > 0) {
+
+            var v1 = dice(n, critical);
+
+            n = v1.filter((v) => v >= critical).length;
+
+            const max = Math.max(...v1);
+            sum += max;
+
+            result += '[ ' + v1.join(', ') + ' ]';
+
+            result += `\n😎 最大値: ${max}\n`;
+
+            if (n) result += `🎲 ${n} critical!!\n`;
+
+
+
+        }
+
+        result += `🍣 合計: ${sum}`;
+
+        console.log(result);
+
+        return result;
+
+
+    } else return null;
+
+
+}
+
+
+
+
+
 app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
     // get content from request body
     const promises = req.body.events.map(event => {
@@ -35,8 +117,9 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
             text
         } = event.message;
 
-        const result = $eval(text) + '\nnext';
+        const result = t(text);
 
+        if (!result) return null;
 
         // reply message
         return line.client
@@ -47,7 +130,7 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
                     text: result
                 }]
             });
-    });
+    }).filter((v) => v);
 
     Promise
         .all(promises)
