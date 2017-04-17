@@ -134,6 +134,8 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
 
     return;
 
+    /*
+
 
     // get content from request body
     const promises = req.body.events.map(event => {
@@ -156,6 +158,10 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
         .then(() => res.json({
             success: true
         }));
+
+
+*/
+
 });
 
 
