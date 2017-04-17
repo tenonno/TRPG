@@ -23,7 +23,18 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
     // get content from request body
     const promises = req.body.events.map(event => {
 
-        const { text } = event.message;
+        const {
+            text
+        } = event.message;
+
+        let result = '';
+
+        try {
+            result = eval(text);
+        } catch (e) {
+            result = e;
+        }
+
 
         // reply message
         return line.client
@@ -31,7 +42,7 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
                 replyToken: event.replyToken,
                 messages: [{
                     type: 'text',
-                    text: eval(text)
+                    text: result
                 }]
             });
     });
@@ -46,5 +57,5 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
 
 
 app.listen(process.env.PORT || 3000, () => {
-  console.log('Example app listening on port 3000!')
+    console.log('Example app listening on port 3000!')
 });
