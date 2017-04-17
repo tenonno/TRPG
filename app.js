@@ -109,27 +109,35 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
 
     //
 
-    const event = req.body.events;
+    const event = req.body.events[0];
+
+    let result = '';
 
     try {
-
-        line.client
-            .replyMessage({
-                replyToken: event.replyToken,
-                messages: [{
-                    type: 'text',
-                    text: eval(event.text)
-                }]
-            });
-
-        res.json({
-            success: true
-        });
-
+        result = eval(event.text);
     } catch (e) {
+        result = e;
     }
 
 
+
+
+    line.client
+        .replyMessage({
+            replyToken: event.replyToken,
+            messages: [{
+                type: 'text',
+                text: result
+            }]
+        }).then((r) => {
+
+
+                res.json({
+                    success: true
+                });
+
+
+        });
 
 
     return;
