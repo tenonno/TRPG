@@ -111,6 +111,9 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
 
     const event = req.body.events[0];
 
+
+        console.log(event.text);
+
     let result = '';
 
     try {
