@@ -28,9 +28,6 @@ const $eval = (text) => {
 
 
 
-console.clear();
-
-const text = '100dx@8';
 
 const clamp = (val, min, max) => Math.min(Math.max(min, val), max);
 
@@ -95,7 +92,6 @@ const t = (text) => {
 
         result += `🍣 合計: ${sum}`;
 
-        console.log(result);
 
         return result;
 
