@@ -120,7 +120,7 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
     }
 
 
-
+    console.log(result);
 
     line.client
         .replyMessage({
