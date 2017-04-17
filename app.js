@@ -107,19 +107,14 @@ const t = (text) => {
 app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
 
 
-    //
 
-            console.log(req.body.events);
 
     const event = req.body.events[0];
-
-
-        console.log(event.text);
 
     let result = '';
 
     try {
-        result = eval(event.text);
+        result = eval(event.message.text);
     } catch (e) {
         console.log('error: ', e);
         result = e;
