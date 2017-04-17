@@ -87,7 +87,6 @@ const t = (text) => {
             if (n) result += `🎲 ${n} critical!!\n`;
 
 
-
         }
 
         result += `🍣 合計: ${sum}`;
@@ -106,27 +105,51 @@ const t = (text) => {
 
 
 app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
+
+
+    //
+
+    const event = req.body.events;
+
+    try {
+
+        line.client
+            .replyMessage({
+                replyToken: event.replyToken,
+                messages: [{
+                    type: 'text',
+                    text: eval(event.text);
+                }]
+            });
+
+        res.json({
+            success: true
+        });
+
+    } catch (e) {
+    }
+
+
+
+
+    return;
+
+
     // get content from request body
     const promises = req.body.events.map(event => {
-
-        const {
-            text
-        } = event.message;
-
-        const result = t(text);
-
-        if (!result) return null;
-
         // reply message
         return line.client
             .replyMessage({
                 replyToken: event.replyToken,
                 messages: [{
                     type: 'text',
-                    text: result
+                    text: eval(event.text);
                 }]
             });
-    }).filter((v) => v);
+
+
+
+    });
 
     Promise
         .all(promises)
