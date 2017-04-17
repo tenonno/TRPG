@@ -19,9 +19,7 @@
     },
     "homepage": "https://github.com/tenonno/TRPG#readme",
     "dependencies": {
-        "node-line-bot-api": "^0.1.4"
-    },
-    "devDependencies": {
+        "node-line-bot-api": "^0.1.4",
         "body-parser": "^1.17.1",
         "express": "^4.15.2"
     }
